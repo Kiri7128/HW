@@ -4,10 +4,10 @@ package ru.netology
 fun getrightTextMinut(seconds:Int) : String{
     var res = "";
     var minuts = seconds / 60
-    when(minuts) {
-        1 , 21 , 31 , 41 , 51 -> res = "был(а) ${minuts} минуту назад"
-        2 , 22 , 32 , 42 , 52,3,4 -> res = "был(а) ${minuts} минуты назад"
-        5 , 25 , 35 , 45 , 55 , in 6..9 -> res = "был(а) ${minuts} минут назад"
+    when {
+        minuts % 10 == 1 && minuts % 100 != 11 -> res = "был(а) ${minuts} минуту назад"
+        (minuts % 10 == 2 || minuts % 10 == 3 || minuts % 10 == 4) && 
+        (minuts % 100 !in 12..14) -> res = "был(а) ${minuts} минуты назад"
         else -> res = "был(а) ${minuts} минут назад"
     }
     return res
@@ -40,32 +40,26 @@ fun masercardCommision (transition:Int) : Int {
     return a.toInt()
 }
 fun getCommission (transition:Int,card:String="Мир",transitionAgo:Int=0) {
+    if (transition > 150000 || transition + transitionAgo > 600000) {
+        println("перевод заблокирован")
+        return
+    }
+    
     when (card) {
-        "Mastercard" ->
-            if (transition + transitionAgo <= 75000) {
-                if (transition <= 150000 && transition + transitionAgo <= 600000) {
-                    println(masercardCommision(transition - 75000))
-                } else {
-                    println("перевод заблокирован")
-                }
-            } else {
-                if (transition <= 150000 && transition + transitionAgo <= 600000) {
-                    println(transition - (transition - masercardCommision(transition - 75000)))
-                } else {
-                    println("перевод заблокирован")
-                }
+        "Mastercard" -> {
+            when {
+                transitionAgo >= 75000 -> println(masercardCommision(transition))
+                transition + transitionAgo > 75000 -> println(masercardCommision(transition + transitionAgo - 75000))
+                else -> println(0)
             }
+        }
         "Visa" ->
-            if (transition <= 150000 && transition + transitionAgo <= 600000 && transition > 35) {
+            if (transition > 35) {
                 println((transition * 0.0075).toInt())
             } else {
                 println("перевод заблокирован")
             }
-        "Мир" -> if (transition <= 150000 && transition + transitionAgo <= 600000) {
-            println(0)
-        } else {
-            println("перевод заблокирован")
-        }
+        "Мир" -> println(0)
     }
 }
 
@@ -73,11 +67,15 @@ fun getCommission (transition:Int,card:String="Мир",transitionAgo:Int=0) {
 fun main() {
     println("Hello World!")
     agoToText(4800)
+    agoToText(3800)
+    
 
     // task 2
     getCommission(160000)
-    getCommission(150000,"Mastercard")
+    getCommission(50000,"Mastercard",150000)
+    getCommission(150000,"Mastercard",150000)
     getCommission(150000,"Visa")
     getCommission(30000)
 
 }
+
