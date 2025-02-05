@@ -39,43 +39,33 @@ fun masercardCommision (transition:Int) : Int {
     val a = transition * 0.006 + 20
     return a.toInt()
 }
-fun getCommission (transition:Int,card:String="Мир",transitionAgo:Int=0) {
+fun getCommission (transition:Int,card:String="Мир",transitionAgo:Int=0) : String{
     if (transition > 150000 || transition + transitionAgo > 600000) {
-        println("перевод заблокирован")
-        return
+        return "перевод заблокирован"
     }
     
     when (card) {
         "Mastercard" -> {
             when {
-                transitionAgo >= 75000 -> println(masercardCommision(transition))
-                transition + transitionAgo > 75000 -> println(masercardCommision(transition + transitionAgo - 75000))
-                else -> println(0)
+                transitionAgo >= 75000 -> return (masercardCommision(transition)).toString()
+                transition + transitionAgo > 75000 -> return (masercardCommision(transition + transitionAgo - 75000)).toString()
+                else -> return "0"
             }
         }
         "Visa" ->
             if (transition > 35) {
-                println((transition * 0.0075).toInt())
+                return ((transition * 0.0075).toInt()).toString()
             } else {
-                println("перевод заблокирован")
+                return  "0"
             }
-        "Мир" -> println(0)
+        "Мир" -> return "0"
     }
+    return " "
 }
 
 
 fun main() {
-    println("Hello World!")
-    agoToText(4800)
-    agoToText(3800)
-    
-
-    // task 2
-    getCommission(160000)
-    getCommission(50000,"Mastercard",150000)
-    getCommission(150000,"Mastercard",150000)
-    getCommission(150000,"Visa")
-    getCommission(30000)
-
+    println(getCommission(150000,"Mastercard",200000))
+    println(getCommission(700000))
 }
 
