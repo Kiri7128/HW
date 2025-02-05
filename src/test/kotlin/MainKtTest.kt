@@ -12,5 +12,6 @@ class MainKtTest {
     kotlin.test.assertEquals("920",getCommission(150000,"Mastercard",200000))
     kotlin.test.assertEquals("перевод заблокирован",getCommission(200000))
     kotlin.test.assertEquals("перевод заблокирован",getCommission(50000,"Мир",600000))
+    kotlin.test.assertEquals("500",getCommission(150000,"Mastercard"))
  }
 }
