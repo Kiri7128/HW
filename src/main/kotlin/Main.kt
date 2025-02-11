@@ -1,4 +1,4 @@
-package ru.netology
+//package ru.netology
 
 fun masercardCommision (transition:Int) : Int {
     val a = transition * 0.006 + 20
