@@ -1,7 +1,7 @@
 import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Test
-import ru.netology.*
+//import ru.netology.*
 
 class MainKtTest {
     @Test
